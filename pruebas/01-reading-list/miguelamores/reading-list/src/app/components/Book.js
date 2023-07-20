@@ -17,7 +17,7 @@ function Book({ book, index = 0, handleClick }) {
           priority
         />
       </figure>
-      <caption className="">{book.book.title}</caption>
+      <caption className="flex">{book.book.title}</caption>
     </>
   );
 }

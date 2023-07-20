@@ -5,7 +5,6 @@ function Book({ book, index = 0, handleClick }) {
     <>
       <figure
         className="relative rounded-xl overflow-hidden"
-        // onClick={() => removeFromLectureList(book)}
         onClick={() => handleClick(book, index)}
       >
         <Image
@@ -17,7 +16,7 @@ function Book({ book, index = 0, handleClick }) {
           priority
         />
       </figure>
-      <caption className="flex">{book.book.title}</caption>
+      <caption className="flex mb-8 mt-2">{book.book.title}</caption>
     </>
   );
 }

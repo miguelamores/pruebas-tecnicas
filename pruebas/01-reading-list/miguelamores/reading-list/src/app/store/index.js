@@ -1,15 +1,18 @@
 import { create } from "zustand";
 
 export const useStore = create((set) => ({
+  originalList: [],
   availableBooks: [],
   availableBooksLength: 0,
   lectureList: [],
   lectureListLength: 0,
   filter: "all",
   setAvailableBooks: (books) =>
-    set({ availableBooks: books, availableBooksLength: books.length }),
-  setLectureList: (lectures) =>
-    set({ lectureList: lectures, lectureListLength: lectures.length }),
+    set({
+      availableBooks: books,
+      availableBooksLength: books.length,
+      originalList: books,
+    }),
   addToLectureList: (lecture, index) =>
     set((state) => {
       const filteredAvailableBooks = state.availableBooks.filter(
@@ -41,7 +44,22 @@ export const useStore = create((set) => ({
     }),
   setFilter: (filter) =>
     set((state) => {
-      const filteredBooks = state.availableBooks.filter(
+      const originalListFilteredLectureList = [...state.originalList].filter(
+        ({ book }) =>
+          book.ISBN !==
+          state.lectureList.find((lecture) => lecture.book.ISBN === book.ISBN)
+            ?.book.ISBN
+      );
+
+      if (filter === "all") {
+        return {
+          filter,
+          availableBooks: originalListFilteredLectureList,
+          availableBooksLength: originalListFilteredLectureList.length,
+        };
+      }
+
+      const filteredBooks = originalListFilteredLectureList.filter(
         ({ book }) => book.genre === filter
       );
       return {
